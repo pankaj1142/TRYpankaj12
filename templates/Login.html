@@ -1,0 +1,254 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pankaj - Animated Login</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #141e30, #243b55);
+            padding: 20px;
+            overflow-x: hidden;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 390px;
+            background: white;
+            padding: 35px;
+            border-radius: 20px;
+            text-align: center;
+            box-shadow: 0 15px 45px rgba(0, 0, 0, 0.3);
+            animation: fadeIn 0.8s ease;
+        }
+
+        .icon {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #4776e6, #8e54e9);
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0 auto 20px;
+            font-size: 35px;
+            font-weight: bold;
+        }
+
+        h1 {
+            color: #243b55;
+            margin-bottom: 10px;
+        }
+
+        p {
+            color: #666;
+            margin-bottom: 25px;
+        }
+
+        input {
+            width: 100%;
+            padding: 14px;
+            margin-bottom: 16px;
+            border: 1px solid #ddd;
+            border-radius: 9px;
+            outline: none;
+            font-size: 15px;
+        }
+
+        input:focus {
+            border-color: #4776e6;
+            box-shadow: 0 0 5px #4776e655;
+        }
+
+        button, .logout {
+            display: block;
+            width: 100%;
+            padding: 14px;
+            border: none;
+            border-radius: 9px;
+            background: linear-gradient(135deg, #4776e6, #8e54e9);
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            text-decoration: none;
+            transition: transform 0.3s;
+        }
+
+        button:hover, .logout:hover {
+            transform: scale(1.04);
+        }
+
+        .error {
+            color: #dc2626;
+            background: #fee2e2;
+            padding: 10px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            font-size: 14px;
+        }
+
+        /* Welcome card animation */
+        .welcome-card {
+            animation: cardOpen 1s ease both;
+        }
+
+        .profile {
+            width: 110px;
+            height: 110px;
+            border-radius: 50%;
+            margin: 10px auto 20px;
+            background: linear-gradient(135deg, #4776e6, #8e54e9);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 45px;
+            font-weight: bold;
+            animation: float 2s ease-in-out infinite;
+            box-shadow: 0 0 25px #8e54e977;
+        }
+
+        .name {
+            animation: nameReveal 1.3s ease both;
+            overflow-wrap: anywhere;
+        }
+
+        .welcome-text {
+            color: #4776e6;
+            font-weight: bold;
+            margin: 18px 0 10px;
+        }
+
+        .logout {
+            margin-top: 20px;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes cardOpen {
+            0% {
+                opacity: 0;
+                transform: perspective(800px) rotateY(-90deg) scale(0.7);
+            }
+            100% {
+                opacity: 1;
+                transform: perspective(800px) rotateY(0) scale(1);
+            }
+        }
+
+        @keyframes nameReveal {
+            from {
+                opacity: 0;
+                letter-spacing: 10px;
+                filter: blur(8px);
+            }
+            to {
+                opacity: 1;
+                letter-spacing: 0;
+                filter: blur(0);
+            }
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-8px);
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    {% if logged_in %}
+
+    <!-- Login successful: animated card -->
+    <div class="container welcome-card">
+
+        <div class="profile">PB</div>
+
+        <h1 class="name">Pankaj Biradar</h1>
+
+        <p class="welcome-text">LOGIN SUCCESSFUL!</p>
+
+        <p>Welcome back, Pankaj! 🎉</p>
+
+        <a href="/logout" class="logout">Logout</a>
+
+    </div>
+
+    {% else %}
+
+    <!-- Login form -->
+    <div class="container">
+
+        <div class="icon">PB</div>
+
+        <h1>Welcome Back!</h1>
+        <p>Please login to continue</p>
+
+        {% if error %}
+            <div class="error">{{ error }}</div>
+        {% endif %}
+
+        <form action="/login" method="POST">
+
+            <input
+                type="text"
+                name="username"
+                placeholder="Enter username"
+                autocomplete="username"
+                required
+            >
+
+            <input
+                type="password"
+                name="password"
+                placeholder="Enter password"
+                autocomplete="current-password"
+                required
+            >
+
+            <button type="submit">Login</button>
+
+        </form>
+
+    </div>
+
+    {% endif %}
+
+</body>
+</html>
